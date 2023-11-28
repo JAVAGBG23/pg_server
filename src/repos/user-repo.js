@@ -9,9 +9,13 @@ class UserRepo {
   }
 
   // HUGE SECURITY RISK!!!!!!!!!!!
+  //`SELECT * FROM users WHERE id = ${id};`
+
+  // this is ok :)
   static async findById(id) {
-    const { rows } = await pool.query(`
-    SELECT * FROM users WHERE id = ${id};`);
+    const { rows } = await pool.query("SELECT * FROM users WHERE id = $1;", [
+      id,
+    ]);
 
     return toCamelCase(rows)[0];
   }
